@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_07_181805) do
+ActiveRecord::Schema.define(version: 2023_02_07_182148) do
 
   create_table "apartments", force: :cascade do |t|
     t.integer "number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "leases", force: :cascade do |t|
+    t.integer "apartment_id", null: false
+    t.integer "tenant_id", null: false
+    t.integer "rent"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["apartment_id"], name: "index_leases_on_apartment_id"
+    t.index ["tenant_id"], name: "index_leases_on_tenant_id"
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -25,4 +35,6 @@ ActiveRecord::Schema.define(version: 2023_02_07_181805) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "leases", "apartments"
+  add_foreign_key "leases", "tenants"
 end
